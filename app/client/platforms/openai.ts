@@ -229,6 +229,7 @@ export class ChatGPTApi implements LLMApi {
     const isO1OrO3 =
       options.config.model.startsWith("o1") ||
       options.config.model.startsWith("o3");
+    const isO3 = options.config.model.startsWith("o3");
     if (isDalle3) {
       const prompt = getMessageTextContent(
         options.messages.slice(-1)?.pop() as any,
@@ -272,7 +273,7 @@ export class ChatGPTApi implements LLMApi {
         requestPayload["max_completion_tokens"] = 34567;
       }
 
-      if (isO1OrO3) {
+      if (isO3) {
         requestPayload["reasoning_effort"] = "high";
       }
 
