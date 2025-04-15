@@ -272,7 +272,7 @@ export class ChatGPTApi implements LLMApi {
         requestPayload["max_completion_tokens"] = 34567;
       }
 
-      if (isO3) {
+      if (isO1OrO3) {
         requestPayload["reasoning_effort"] = "high";
       }
 
