@@ -334,6 +334,9 @@ export function isVisionModel(model: string) {
     "gpt-4.1",
     "gpt-4.1-mini",
     "gpt-4.1-nano",
+    "gpt-4.1-2025-04-14",
+    "o1","o3",
+    "o4-mini-2025-04-16",
   ];
 
   var googleModels = DEFAULT_MODELS.filter(
@@ -439,6 +442,9 @@ export function isFunctionCallModel(modelName: string) {
     "claude-3-5-haiku-latest",
     "claude-3-7-sonnet-20250219",
     "claude-3-7-sonnet-latest",
+    "gpt-4.1-2025-04-14",
+    "o1","o3",
+    "o4-mini-2025-04-16",
   ];
   if (specialModels.some((keyword) => modelName === keyword)) return true;
   return DEFAULT_MODELS.filter(
