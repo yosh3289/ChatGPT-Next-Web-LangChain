@@ -227,8 +227,7 @@ export class ChatGPTApi implements LLMApi {
 
     const isDalle3 = _isDalle3(options.config.model);
     const isOseries =
-      options.config.model.startsWith("o1") ||
-      options.config.model.startsWith("o3");
+      options.config.model.startsWith("o");
     const isMini = /^o\d+-mini/.test(options.config.model);
     if (isDalle3) {
       const prompt = getMessageTextContent(
