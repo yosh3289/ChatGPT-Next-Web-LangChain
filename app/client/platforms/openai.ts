@@ -259,16 +259,20 @@ export class ChatGPTApi implements LLMApi {
         messages,
         stream: options.config.stream,
         model: modelConfig.model,
-        temperature: !isOseries ? modelConfig.temperature : 1,
-        presence_penalty: !isOseries ? modelConfig.presence_penalty : 0,
-        frequency_penalty: !isOseries ? modelConfig.frequency_penalty : 0,
-        top_p: !isOseries ? modelConfig.top_p : 1,
+        temperature: !(isOseries &&  visionModel) ? modelConfig.temperature : 1,
+        presence_penalty: !(isOseries &&  visionModel) ? modelConfig.presence_penalty : 0,
+        frequency_penalty: !(isOseries &&  visionModel) ? modelConfig.frequency_penalty : 0,
+        top_p: !(isOseries &&  visionModel) ? modelConfig.top_p : 1,
         // max_tokens: Math.max(modelConfig.max_tokens, 1024),
         // Please do not ask me why not send max_tokens, no reason, this param is just shit, I dont want to explain anymore.
       };
 
+      // add max_tokens to vision model
+      if (visionModel) {
+        requestPayload["max_tokens"] = Math.max(modelConfig.max_tokens, 4000);
+      }
       // O1 使用 max_completion_tokens 控制token数 (https://platform.openai.com/docs/guides/reasoning#controlling-costs)
-      if (isOseries) {
+      if (isOseries && visionModel) {
         requestPayload["max_completion_tokens"] = 34567;
       }
 
@@ -276,10 +280,7 @@ export class ChatGPTApi implements LLMApi {
         requestPayload["reasoning_effort"] = "high";
       }
 
-      // add max_tokens to vision model
-      if (visionModel) {
-        requestPayload["max_tokens"] = Math.max(modelConfig.max_tokens, 4000);
-      }
+      
     }
 
     console.log("[Request] openai payload: ", requestPayload);
