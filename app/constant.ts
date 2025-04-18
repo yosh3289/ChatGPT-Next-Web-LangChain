@@ -375,6 +375,9 @@ const openaiModels = [
   "gpt-4.1",
   "gpt-4.1-mini",
   "gpt-4.1-nano",
+  "gpt-4.1-2025-04-14",
+  "o1","o3",
+  "o4-mini-2025-04-16",
 ];
 
 const googleModels = [
