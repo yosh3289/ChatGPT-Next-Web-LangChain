@@ -272,13 +272,17 @@ export class ChatGPTApi implements LLMApi {
         // Please do not ask me why not send max_tokens, no reason, this param is just shit, I dont want to explain anymore.
       };
 
-      if (isMini) {
+      if (isOseries && isMini) {
         requestPayload["reasoning_effort"] = "high";
       }
 
       // O1 使用 max_completion_tokens 控制token数 (https://platform.openai.com/docs/guides/reasoning#controlling-costs)
       if (isOseries) {
         requestPayload["max_completion_tokens"] = 34567;
+        requestPayload["temperature"] = 1;
+        requestPayload["top_p"] = 1;
+        requestPayload["presence_penalty"] = 0;
+        requestPayload["frequency_penalty"] = 0;
       }
 
       // add max_tokens to vision model
