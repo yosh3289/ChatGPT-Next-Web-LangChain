@@ -269,12 +269,18 @@ export class ChatGPTApi implements LLMApi {
 
       // add max_tokens to vision model
       if (visionModel) {
-        requestPayload["max_tokens"] = Math.max(modelConfig.max_tokens, 4000);
+        if (visionModel && isOseries) {requestPayload["max_completion_tokens"] = 34567;}
+        else {requestPayload["max_tokens"] = Math.max(modelConfig.max_tokens, 4000);}
+        requestPayload["temerature"] = 1;
+        requestPayload["presence_penalty"] = 0;
+        requestPayload["frequency_penalty"] = 0;
+        requestPayload["top_p"] = 1;
       }
+      
       // O1 使用 max_completion_tokens 控制token数 (https://platform.openai.com/docs/guides/reasoning#controlling-costs)
-      if (isOseries && visionModel) {
-        requestPayload["max_completion_tokens"] = 34567;
-      }
+      // if (isOseries && visionModel) {
+        // requestPayload["max_completion_tokens"] = 34567;
+      //}
 
       if (isMini) {
         requestPayload["reasoning_effort"] = "high";
