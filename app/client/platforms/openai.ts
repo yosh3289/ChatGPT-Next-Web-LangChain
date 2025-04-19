@@ -269,7 +269,12 @@ export class ChatGPTApi implements LLMApi {
 
       // add max_tokens to vision model
       if (visionModel) {
-        if (visionModel && isOseries) {requestPayload["max_completion_tokens"] = 34567;}
+        if (visionModel && isOseries) {
+          requestPayload["max_completion_tokens"] = 34567;
+          if (visionModel && isOseries && isMini) {
+            requestPayload["reasoning_effort"] = "high";
+          }
+        }
         else {requestPayload["max_tokens"] = Math.max(modelConfig.max_tokens, 4000);}
         requestPayload["temperature"] = 1;
         requestPayload["presence_penalty"] = 0;
@@ -282,9 +287,9 @@ export class ChatGPTApi implements LLMApi {
         // requestPayload["max_completion_tokens"] = 34567;
       //}
 
-      if (isMini) {
-        requestPayload["reasoning_effort"] = "high";
-      }
+      // if (isMini) {
+        // requestPayload["reasoning_effort"] = "high";
+      // }
 
       
     }
