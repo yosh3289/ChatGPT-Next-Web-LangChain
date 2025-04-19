@@ -267,13 +267,18 @@ export class ChatGPTApi implements LLMApi {
         // frequency_penalty: modelConfig.frequency_penalty,
         top_p: !isOseries ? modelConfig.top_p : 1,
         // top_p: modelConfig.top_p,
-        max_completion_tokens: !isOseries ? modelConfig.max_completion_tokens : 34567,
+        // max_completion_tokens: !isOseries ? modelConfig.max_completion_tokens : 34567,
         // max_tokens: Math.max(modelConfig.max_tokens, 1024),
         // Please do not ask me why not send max_tokens, no reason, this param is just shit, I dont want to explain anymore.
       };
 
       if (isMini) {
         requestPayload["reasoning_effort"] = "high";
+      }
+
+      // O1 使用 max_completion_tokens 控制token数 (https://platform.openai.com/docs/guides/reasoning#controlling-costs)
+      if (isOseries) {
+        requestPayload["max_completion_tokens"] = 34567;
       }
 
       // add max_tokens to vision model
@@ -289,12 +294,6 @@ export class ChatGPTApi implements LLMApi {
       } else {
         requestPayload["max_tokens"] = Math.max(modelConfig.max_tokens, 4000);
       }*/
-      
-      // O1 使用 max_completion_tokens 控制token数 (https://platform.openai.com/docs/guides/reasoning#controlling-costs)
-      // if (isOseries && visionModel) {
-        // requestPayload["max_completion_tokens"] = 34567;
-      //}
-
       
     }
 
