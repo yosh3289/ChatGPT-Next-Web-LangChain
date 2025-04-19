@@ -229,6 +229,7 @@ export class ChatGPTApi implements LLMApi {
     const isOseries =
       options.config.model.startsWith("o");
     const isMini = /^o\d+-mini/.test(options.config.model);
+    const visionModel = isVisionModel(options.config.model);
     if (isDalle3) {
       const prompt = getMessageTextContent(
         options.messages.slice(-1)?.pop() as any,
@@ -244,7 +245,6 @@ export class ChatGPTApi implements LLMApi {
         style: options.config?.style ?? "vivid",
       };
     } else {
-      const visionModel = isVisionModel(options.config.model);
       const messages: ChatOptions["messages"] = [];
       for (const v of options.messages) {
         const content = visionModel
