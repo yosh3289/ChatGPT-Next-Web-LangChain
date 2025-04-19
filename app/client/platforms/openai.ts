@@ -259,20 +259,25 @@ export class ChatGPTApi implements LLMApi {
         messages,
         stream: options.config.stream,
         model: modelConfig.model,
-        temperature: (!isOseries && !isMini) ? modelConfig.temperature : 1,
+        temperature: !isOseries ? modelConfig.temperature : 1,
         // temperature: modelConfig.temperature,
-        presence_penalty: (!isOseries && !isMini) ? modelConfig.presence_penalty : 0,
+        presence_penalty: !isOseries ? modelConfig.presence_penalty : 0,
         // presence_penality: modelConfig.presence_penalty,
-        frequency_penalty: (!isOseries && !isMini) ? modelConfig.frequency_penalty : 0,
+        frequency_penalty: !isOseries ? modelConfig.frequency_penalty : 0,
         // frequency_penalty: modelConfig.frequency_penalty,
-        top_p: (!isOseries && !isMini) ? modelConfig.top_p : 1,
+        top_p: !isOseries ? modelConfig.top_p : 1,
         // top_p: modelConfig.top_p,
+        max_completion_tokens: !isOseries ? modelConfig.max_completion_tokens : 34567,
         // max_tokens: Math.max(modelConfig.max_tokens, 1024),
         // Please do not ask me why not send max_tokens, no reason, this param is just shit, I dont want to explain anymore.
       };
 
+      if (isMini) {
+        requestPayload["reasoning_effort"] = "high";
+      }
+
       // add max_tokens to vision model
-      if (isOseries) {
+      /*if (isOseries) {
         if (isOseries && isMini) {
           requestPayload["reasoning_effort"] = "high";
         }
@@ -283,16 +288,12 @@ export class ChatGPTApi implements LLMApi {
         requestPayload["top_p"] = 1;
       } else {
         requestPayload["max_tokens"] = Math.max(modelConfig.max_tokens, 4000);
-      }
+      }*/
       
       // O1 使用 max_completion_tokens 控制token数 (https://platform.openai.com/docs/guides/reasoning#controlling-costs)
       // if (isOseries && visionModel) {
         // requestPayload["max_completion_tokens"] = 34567;
       //}
-
-      // if (isMini) {
-        // requestPayload["reasoning_effort"] = "high";
-      // }
 
       
     }
