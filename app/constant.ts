@@ -345,6 +345,7 @@ export const VISION_MODEL_REGEXES = [
   /o1/,
   /o3/,
   /o4-mini/,
+  /gpt-5(.*)/,
 ];
 
 export const EXCLUDE_VISION_MODEL_REGEXES = [/claude-2/];
