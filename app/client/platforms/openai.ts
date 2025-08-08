@@ -83,6 +83,8 @@ export interface RequestPayload {
   top_p: number;
   max_tokens?: number;
   max_completion_tokens?: number;
+  reasoning_effort?: string;
+  verbosity?: string;
 }
 
 export interface DalleRequestPayload {
@@ -250,6 +252,7 @@ export class ChatGPTApi implements LLMApi {
       options.config.model.startsWith("o1") ||
       options.config.model.startsWith("o3") ||
       options.config.model.startsWith("o4");
+    const isGPT5 = options.config.model.startsWith("gpt-5");
 
     if (isImageGenModel) {
       const prompt = getMessageTextContent(
@@ -307,8 +310,13 @@ export class ChatGPTApi implements LLMApi {
       if (visionModel) {
         if (isOseries) {
           requestPayload["max_completion_tokens"] = 23456;
+          requestPayload["reasoning_effort"] = "high";
         } else {
           requestPayload["max_tokens"] = Math.max(modelConfig.max_tokens, 4000);
+          if (isGPT5) {
+            requestPayload["reasoning_effort"] = "medium";
+            requestPayload["verbosity"] = "medium";
+          }
         }
       }
     }
