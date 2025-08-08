@@ -434,6 +434,7 @@ export function isFunctionCallModel(modelName: string) {
     "o1",
     "o3",
     "gpt-4.1",
+    "gpt-5",
   ];
   if (specialModels.some((keyword) => modelName === keyword)) return true;
   return DEFAULT_MODELS.filter(
